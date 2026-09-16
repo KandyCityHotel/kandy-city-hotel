@@ -1,14 +1,23 @@
-
+/* =========================================================
+   KANDY CITY HOTEL
+   PREMIUM PROMOTIONS EXPERIENCE
+========================================================= */
 
 :root {
-    --bg: #0d0d0d;
-    --surface: #141414;
+    --background: #0b0b0b;
+    --surface: #111111;
     --text: #f4f1eb;
-    --muted: #8e8b85;
-    --line: rgba(255,255,255,0.13);
-    --serif: "Cormorant Garamond", serif;
-    --sans: "DM Sans", sans-serif;
+    --muted: #85827d;
+    --line: rgba(255, 255, 255, 0.13);
+
+    --serif: "Cormorant Garamond", Georgia, serif;
+    --sans: "DM Sans", Arial, sans-serif;
 }
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     margin: 0;
@@ -21,653 +30,1116 @@ html {
 }
 
 body {
-    background: var(--bg);
+    background: var(--background);
     color: var(--text);
     font-family: var(--sans);
     overflow-x: hidden;
 }
 
-body.no-scroll {
+body.lightbox-open {
     overflow: hidden;
+}
+
+button {
+    border: 0;
+    outline: 0;
+    font-family: inherit;
 }
 
 img {
     display: block;
-    width: 100%;
-}
-
-button {
-    font: inherit;
+    max-width: 100%;
 }
 
 
-/* =========================================
-   LOADER
-========================================= */
-
-.loader {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #0d0d0d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-        opacity 0.8s ease,
-        visibility 0.8s ease;
-}
-
-..loader.hide {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-
-.loader-content {
-    text-align: center;
-    animation: loaderReveal 1s ease forwards;
-}
-
-.loader-content span {
-    display: block;
-    font-size: 11px;
-    letter-spacing: 5px;
-    font-weight: 500;
-}
-
-.loader-content small {
-    display: block;
-    margin-top: 12px;
-    font-size: 8px;
-    letter-spacing: 4px;
-    color: var(--muted);
-}
-
-.loader-line {
-    width: 100px;
-    height: 1px;
-    background: var(--text);
-    margin: 18px auto 0;
-    transform-origin: left;
-    animation: loaderLine 1.4s ease forwards;
-}
-
-@keyframes loaderLine {
-    from {
-        transform: scaleX(0);
-    }
-
-    to {
-        transform: scaleX(1);
-    }
-}
-
-@keyframes loaderReveal {
-    from {
-        opacity: 0;
-        transform: translateY(12px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-
-/* =========================================
+/* =========================================================
    NOISE
-========================================= */
+========================================================= */
 
 .noise {
     position: fixed;
     inset: 0;
-    z-index: 50;
+
+    z-index: 100;
+
     pointer-events: none;
+
     opacity: 0.035;
+
     background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.7'/%3E%3C/svg%3E");
 }
 
 
-/* =========================================
-   CURSOR GLOW
-========================================= */
+/* =========================================================
+   AMBIENT LIGHT
+========================================================= */
+
+.ambient {
+    position: fixed;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(120px);
+
+    opacity: 0.45;
+
+    z-index: 0;
+}
+
+.ambient-1 {
+    width: 380px;
+    height: 380px;
+
+    top: 5%;
+    left: -120px;
+
+    background: rgba(255, 255, 255, 0.025);
+
+    animation: ambientOne 12s ease-in-out infinite;
+}
+
+.ambient-2 {
+    width: 320px;
+    height: 320px;
+
+    right: -100px;
+    top: 45%;
+
+    background: rgba(255, 255, 255, 0.02);
+
+    animation: ambientTwo 15s ease-in-out infinite;
+}
+
+.ambient-3 {
+    width: 260px;
+    height: 260px;
+
+    bottom: 5%;
+    left: 40%;
+
+    background: rgba(255, 255, 255, 0.018);
+
+    animation: ambientThree 18s ease-in-out infinite;
+}
+
+@keyframes ambientOne {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(100px, 70px);
+    }
+}
+
+@keyframes ambientTwo {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-80px, 60px);
+    }
+}
+
+@keyframes ambientThree {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(40px, -80px);
+    }
+}
+
+
+/* =========================================================
+   MOUSE GLOW
+========================================================= */
 
 .cursor-glow {
     position: fixed;
-    width: 280px;
-    height: 280px;
+
+    width: 350px;
+    height: 350px;
+
     border-radius: 50%;
+
     pointer-events: none;
-    background: radial-gradient(
-        circle,
-        rgba(255,255,255,0.045),
-        transparent 65%
-    );
+
+    z-index: 2;
+
     transform: translate(-50%, -50%);
-    z-index: 1;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255, 255, 255, 0.045),
+            rgba(255, 255, 255, 0) 68%
+        );
+
     transition:
         width 0.3s ease,
         height 0.3s ease;
 }
 
 
-/* =========================================
+/* =========================================================
    HERO
-========================================= */
+========================================================= */
 
 .hero {
+    position: relative;
+
     min-height: 100vh;
     min-height: 100svh;
-    position: relative;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     overflow: hidden;
+
     border-bottom: 1px solid var(--line);
 }
 
+
 .hero::before {
     content: "";
+
     position: absolute;
-    inset: 0;
+
+    width: 65vw;
+    height: 65vw;
+
+    max-width: 850px;
+    max-height: 850px;
+
+    border-radius: 50%;
+
     background:
         radial-gradient(
-            circle at 50% 40%,
-            rgba(255,255,255,0.07),
-            transparent 35%
+            circle,
+            rgba(255, 255, 255, 0.035),
+            transparent 65%
         );
+
+    animation: heroPulse 7s ease-in-out infinite;
 }
 
-.hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 30px;
-}
-
-.eyebrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    font-size: 9px;
-    letter-spacing: 4px;
-    color: var(--muted);
-    margin-bottom: 35px;
-    animation: heroUp 1.2s 1.1s both;
-}
-
-.eyebrow span {
-    width: 25px;
-    height: 1px;
-    background: var(--muted);
-}
-
-.hero h1 {
-    font-family: var(--serif);
-    font-size: clamp(75px, 13vw, 190px);
-    font-weight: 400;
-    line-height: 0.72;
-    letter-spacing: -6px;
-    animation: heroUp 1.2s 1.25s both;
-}
-
-.hero h1 em {
-    display: block;
-    font-weight: 400;
-    font-style: italic;
-    margin-left: 70px;
-}
-
-.hero p {
-    margin-top: 48px;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--muted);
-    text-transform: uppercase;
-    animation: heroUp 1.2s 1.4s both;
-}
-
-.scroll-indicator {
-    position: absolute;
-    top: calc(100vh - 75px);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    animation: heroUp 1.2s 1.6s both;
-}
-
-.scroll-indicator span {
-    font-size: 8px;
-    letter-spacing: 3px;
-    color: var(--muted);
-}
-
-.scroll-line {
-    width: 1px;
-    height: 45px;
-    background: linear-gradient(
-        to bottom,
-        var(--muted),
-        transparent
-    );
-    animation: scrollPulse 2s infinite;
-}
-
-@keyframes scrollPulse {
+@keyframes heroPulse {
     0%, 100% {
-        opacity: 0.3;
-        transform: scaleY(0.7);
-        transform-origin: top;
+        transform: scale(0.95);
+        opacity: 0.5;
     }
 
     50% {
+        transform: scale(1.05);
         opacity: 1;
-        transform: scaleY(1);
     }
 }
 
-@keyframes heroUp {
+
+.hero-content {
+    position: relative;
+
+    z-index: 5;
+
+    text-align: center;
+
+    padding: 30px;
+
+    animation: heroEnter 1.3s cubic-bezier(.2,.7,.2,1) both;
+}
+
+@keyframes heroEnter {
     from {
         opacity: 0;
-        transform: translateY(35px);
+
+        transform:
+            translateY(45px)
+            scale(0.97);
     }
 
     to {
         opacity: 1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+
+/* =========================================================
+   HERO EYEBROW
+========================================================= */
+
+.eyebrow {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-bottom: 38px;
+
+    color: var(--muted);
+
+    font-size: 9px;
+
+    font-weight: 500;
+
+    letter-spacing: 4px;
+
+    animation: fadeUp 1s 0.25s both;
+}
+
+.eyebrow span {
+    width: 28px;
+    height: 1px;
+
+    background: var(--muted);
+}
+
+
+/* =========================================================
+   HERO TITLE
+========================================================= */
+
+.hero h1 {
+    font-family: var(--serif);
+
+    font-size: clamp(
+        72px,
+        13vw,
+        185px
+    );
+
+    line-height: 0.73;
+
+    font-weight: 400;
+
+    letter-spacing: -6px;
+
+    white-space: nowrap;
+
+    animation: fadeUp 1s 0.4s both;
+}
+
+.hero h1 em {
+    display: block;
+
+    margin-left: 85px;
+
+    font-style: italic;
+
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   HERO SUBTITLE
+========================================================= */
+
+.hero-subtitle {
+    margin-top: 48px;
+
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: 4px;
+
+    text-transform: uppercase;
+
+    animation: fadeUp 1s 0.55s both;
+}
+
+
+/* =========================================================
+   EXPLORE BUTTON
+========================================================= */
+
+.explore-button {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-top: 42px;
+
+    padding: 13px 18px;
+
+    background: transparent;
+
+    border: 1px solid var(--line);
+
+    color: var(--text);
+
+    cursor: pointer;
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
+
+    transition:
+        background 0.4s ease,
+        border-color 0.4s ease,
+        transform 0.4s ease;
+
+    animation: fadeUp 1s 0.7s both;
+}
+
+.explore-button:hover {
+    background: rgba(255,255,255,0.07);
+
+    border-color:
+        rgba(255,255,255,0.35);
+
+    transform: translateY(-3px);
+}
+
+.explore-arrow {
+    font-size: 15px;
+
+    transition:
+        transform 0.4s ease;
+}
+
+.explore-button:hover .explore-arrow {
+    transform: translateY(4px);
+}
+
+
+/* =========================================================
+   HERO BOTTOM
+========================================================= */
+
+.hero-bottom {
+    position: absolute;
+
+    bottom: 30px;
+    left: 5vw;
+    right: 5vw;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    z-index: 5;
+
+    color: var(--muted);
+
+    font-size: 7px;
+
+    letter-spacing: 3px;
+
+    animation: fadeUp 1s 0.9s both;
+}
+
+.hero-bottom .hero-line {
+    flex: 1;
+
+    height: 1px;
+
+    background: var(--line);
+}
+
+
+/* =========================================================
+   GENERIC FADE UP
+========================================================= */
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+
         transform: translateY(0);
     }
 }
 
 
-/* =========================================
-   ORBS
-========================================= */
-
-.hero-orb {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(90px);
-    pointer-events: none;
-}
-
-.orb-one {
-    width: 300px;
-    height: 300px;
-    background: rgba(255,255,255,0.025);
-    top: 15%;
-    left: 8%;
-    animation: floatOne 8s ease-in-out infinite;
-}
-
-.orb-two {
-    width: 250px;
-    height: 250px;
-    background: rgba(255,255,255,0.02);
-    right: 10%;
-    bottom: 15%;
-    animation: floatTwo 10s ease-in-out infinite;
-}
-
-@keyframes floatOne {
-    0%, 100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(50px, 30px);
-    }
-}
-
-@keyframes floatTwo {
-    0%, 100% {
-        transform: translate(0, 0);
-    }
-
-    50% {
-        transform: translate(-40px, -25px);
-    }
-}
-
-
-/* =========================================
+/* =========================================================
    PROMOTIONS SECTION
-========================================= */
+========================================================= */
 
 .promotions {
-    max-width: 1450px;
-    margin: auto;
-    padding: 150px 6vw 180px;
+    position: relative;
+
+    z-index: 3;
+
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding:
+        160px
+        6vw
+        180px;
 }
 
-.section-heading {
-    margin-bottom: 100px;
+
+/* =========================================================
+   SECTION INTRO
+========================================================= */
+
+.section-intro {
+    margin-bottom: 110px;
 }
 
-.section-heading > div {
+.section-meta {
     display: flex;
+
     align-items: center;
-    gap: 18px;
+
+    gap: 17px;
+
     margin-bottom: 30px;
 }
 
-.section-number {
+.section-meta .number {
+    color: var(--muted);
+
     font-size: 9px;
+
     letter-spacing: 2px;
-    color: var(--muted);
 }
 
-.section-label {
-    font-size: 9px;
+.section-meta .line {
+    width: 35px;
+
+    height: 1px;
+
+    background: var(--muted);
+}
+
+.section-meta .label {
+    color: var(--muted);
+
+    font-size: 8px;
+
     letter-spacing: 4px;
-    color: var(--muted);
 }
 
-.section-heading h2 {
-    max-width: 700px;
+.section-intro h2 {
+    max-width: 850px;
+
     font-family: var(--serif);
-    font-size: clamp(55px, 7vw, 100px);
-    line-height: 0.9;
+
+    font-size: clamp(
+        60px,
+        8vw,
+        115px
+    );
+
     font-weight: 400;
-    letter-spacing: -3px;
+
+    line-height: 0.84;
+
+    letter-spacing: -4px;
 }
 
-.section-heading h2 i {
+.section-intro h2 span {
+    display: block;
+
     font-style: italic;
 }
 
 
-/* =========================================
+/* =========================================================
    PROMOTION GRID
-========================================= */
+========================================================= */
 
 .promotion-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
     column-gap: 7vw;
+
     row-gap: 130px;
+
     align-items: start;
 }
 
+
+/* =========================================================
+   PROMOTION CARD
+========================================================= */
+
 .promotion-card {
-    cursor: pointer;
-}
-
-.promotion-card.large {
-    margin-top: 100px;
-}
-
-.image-wrapper {
     position: relative;
+
+    cursor: pointer;
+
+    perspective: 1000px;
+}
+
+.card-large {
+    margin-top: 80px;
+}
+
+.card-small {
+    margin-top: 0;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.promotion-image {
+    position: relative;
+
     overflow: hidden;
+
     background: var(--surface);
+
+    isolation: isolate;
 }
 
-.image-wrapper::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to top,
-        rgba(0,0,0,0.3),
-        transparent 45%
-    );
-    opacity: 0;
-    transition: opacity 0.5s ease;
-}
-
-.image-wrapper img {
+.promotion-image img {
     width: 100%;
+
     height: auto;
+
     aspect-ratio: 4 / 5;
+
     object-fit: cover;
+
     transition:
-        transform 1s cubic-bezier(.2,.7,.2,1),
-        filter 0.6s ease;
+        transform 1.1s
+        cubic-bezier(.2,.7,.2,1),
+
+        filter 0.7s ease;
 }
 
-.promotion-card.large .image-wrapper img {
+.card-large .promotion-image img {
     aspect-ratio: 5 / 6;
 }
 
-.promotion-card:hover img {
-    transform: scale(1.045);
-    filter: brightness(0.72);
+
+/* =========================================================
+   IMAGE SHADE
+========================================================= */
+
+.image-shade {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,0.48),
+            transparent 48%
+        );
+
+    opacity: 0;
+
+    transition:
+        opacity 0.6s ease;
 }
 
-.promotion-card:hover .image-wrapper::after {
+
+/* =========================================================
+   HOVER
+========================================================= */
+
+.promotion-card:hover
+.promotion-image img {
+    transform: scale(1.055);
+
+    filter: brightness(0.68);
+}
+
+.promotion-card:hover
+.image-shade {
     opacity: 1;
 }
 
 
-/* =========================================
-   IMAGE OVERLAY
-========================================= */
+/* =========================================================
+   VIEW PROMOTION
+========================================================= */
 
-.image-overlay {
+.view-promotion {
     position: absolute;
-    z-index: 2;
+
     inset: 0;
+
+    z-index: 4;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
     flex-direction: column;
-    gap: 10px;
+
+    gap: 13px;
+
     opacity: 0;
-    transform: translateY(15px);
+
+    transform: translateY(20px);
+
     transition:
         opacity 0.5s ease,
         transform 0.5s ease;
 }
 
-.promotion-card:hover .image-overlay {
+.promotion-card:hover
+.view-promotion {
     opacity: 1;
+
     transform: translateY(0);
 }
 
-.image-overlay span {
+.view-promotion > span {
     font-size: 8px;
-    letter-spacing: 3px;
+
+    letter-spacing: 4px;
 }
 
-.arrow {
-    width: 42px;
-    height: 42px;
-    border: 1px solid rgba(255,255,255,0.5);
-    border-radius: 50%;
+.view-icon {
+    width: 46px;
+    height: 46px;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
+
+    border: 1px solid
+        rgba(255,255,255,0.55);
+
+    border-radius: 50%;
+
     font-size: 17px;
+
+    transition:
+        transform 0.4s ease,
+        background 0.4s ease;
+}
+
+.promotion-card:hover
+.view-icon {
+    background: rgba(255,255,255,0.08);
+
+    transform: scale(1.08);
 }
 
 
-/* =========================================
-   CARD INFO
-========================================= */
+/* =========================================================
+   IMAGE NUMBER
+========================================================= */
 
-.card-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 17px;
-}
+.image-number {
+    position: absolute;
 
-.card-info span {
+    bottom: 20px;
+    left: 22px;
+
+    z-index: 5;
+
+    color: white;
+
     font-size: 8px;
-    letter-spacing: 2px;
-    color: var(--muted);
-}
 
-.card-line {
-    height: 1px;
-    flex: 1;
-    background: var(--line);
+    letter-spacing: 3px;
+
+    opacity: 0.8;
 }
 
 
-/* =========================================
-   REVEAL ANIMATION
-========================================= */
+/* =========================================================
+   REVEAL
+========================================================= */
 
 .reveal {
     opacity: 0;
-    transform: translateY(60px);
+
+    transform: translateY(70px);
+
     transition:
         opacity 1s ease,
-        transform 1s cubic-bezier(.2,.7,.2,1);
+        transform 1.1s
+        cubic-bezier(.2,.7,.2,1);
 }
 
 .reveal.visible {
     opacity: 1;
+
     transform: translateY(0);
 }
 
 
-/* =========================================
+/* =========================================================
    FOOTER
-========================================= */
+========================================================= */
 
 footer {
-    padding: 80px 6vw 35px;
+    position: relative;
+
+    z-index: 3;
+
+    padding:
+        90px
+        6vw
+        35px;
+
     border-top: 1px solid var(--line);
 }
 
-.footer-top {
+.footer-main {
     display: flex;
-    justify-content: space-between;
+
     align-items: flex-end;
+
+    justify-content: space-between;
+
     padding-bottom: 70px;
 }
 
-.footer-top h3 {
+.footer-brand h3 {
     font-family: var(--serif);
-    font-size: clamp(45px, 6vw, 80px);
+
+    font-size: clamp(
+        48px,
+        7vw,
+        90px
+    );
+
     font-weight: 400;
+
     line-height: 0.8;
+
+    letter-spacing: -3px;
 }
 
-.footer-top h3 i {
+.footer-brand h3 em {
     font-style: italic;
 }
 
-.footer-top > span {
-    font-size: 8px;
-    letter-spacing: 4px;
+.footer-brand p {
+    margin-top: 25px;
+
     color: var(--muted);
+
+    font-size: 8px;
+
+    letter-spacing: 4px;
+}
+
+.footer-mark {
+    color: var(--muted);
+
+    font-size: 8px;
+
+    letter-spacing: 3px;
 }
 
 .footer-bottom {
     display: flex;
+
+    align-items: center;
     justify-content: space-between;
-    padding-top: 20px;
+
+    padding-top: 22px;
+
     border-top: 1px solid var(--line);
-    font-size: 8px;
-    letter-spacing: 1px;
+
     color: var(--muted);
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
 }
 
 
-/* =========================================
+/* =========================================================
    LIGHTBOX
-========================================= */
+========================================================= */
 
 .lightbox {
     position: fixed;
+
     inset: 0;
-    z-index: 9998;
-    background: rgba(5,5,5,0.96);
-    backdrop-filter: blur(20px);
+
+    z-index: 999;
+
     display: flex;
+
     align-items: center;
     justify-content: center;
-    padding: 50px;
+
+    padding: 60px;
+
+    background:
+        rgba(5,5,5,0.96);
+
+    backdrop-filter: blur(25px);
+
     opacity: 0;
+
     visibility: hidden;
+
+    pointer-events: none;
+
     transition:
-        opacity 0.4s ease,
-        visibility 0.4s ease;
+        opacity 0.45s ease,
+        visibility 0.45s ease;
 }
 
 .lightbox.active {
     opacity: 1;
+
     visibility: visible;
+
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    max-width: 86vw;
+
+    max-height: 88vh;
+
+    overflow: hidden;
+
+    animation: lightboxIn 0.55s
+        cubic-bezier(.2,.7,.2,1);
+}
+
+.lightbox:not(.active)
+.lightbox-content {
+    animation: none;
+}
+
+@keyframes lightboxIn {
+    from {
+        opacity: 0;
+
+        transform:
+            scale(0.92)
+            translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+
+        transform:
+            scale(1)
+            translateY(0);
+    }
 }
 
 .lightbox-image {
-    max-width: 85vw;
-    max-height: 88vh;
-    overflow: hidden;
-}
+    display: block;
 
-.lightbox-image img {
-    max-width: 100%;
-    max-height: 88vh;
+    max-width: 86vw;
+
+    max-height: 83vh;
+
     width: auto;
+
     height: auto;
+
     object-fit: contain;
-    transform: scale(0.94);
-    transition: transform 0.5s cubic-bezier(.2,.7,.2,1);
 }
 
-.lightbox.active .lightbox-image img {
-    transform: scale(1);
-}
 
-.close-lightbox {
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.lightbox-close {
     position: absolute;
-    top: 30px;
-    right: 35px;
-    width: 45px;
-    height: 45px;
+
+    top: 28px;
+    right: 30px;
+
+    width: 50px;
+    height: 50px;
+
     border: 1px solid var(--line);
+
     border-radius: 50%;
+
     background: transparent;
-    color: var(--text);
-    font-size: 28px;
-    font-weight: 300;
+
     cursor: pointer;
+
     transition:
         background 0.3s ease,
         transform 0.3s ease;
 }
 
-.close-lightbox:hover {
+.lightbox-close span {
+    position: absolute;
+
+    left: 14px;
+
+    top: 24px;
+
+    width: 21px;
+
+    height: 1px;
+
+    background: white;
+}
+
+.lightbox-close span:first-child {
+    transform: rotate(45deg);
+}
+
+.lightbox-close span:last-child {
+    transform: rotate(-45deg);
+}
+
+.lightbox-close:hover {
     background: rgba(255,255,255,0.08);
+
     transform: rotate(90deg);
 }
 
-.lightbox-counter {
+
+/* =========================================================
+   PREVIOUS / NEXT
+========================================================= */
+
+.lightbox-prev,
+.lightbox-next {
     position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    font-size: 9px;
-    letter-spacing: 3px;
-    color: var(--muted);
+
+    top: 50%;
+
+    width: 52px;
+    height: 52px;
+
+    margin-top: -26px;
+
+    border: 1px solid var(--line);
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.02);
+
+    color: white;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.lightbox-prev {
+    left: 30px;
+}
+
+.lightbox-next {
+    right: 30px;
+}
+
+.lightbox-prev:hover {
+    background: rgba(255,255,255,0.1);
+
+    transform: translateX(-4px);
+}
+
+.lightbox-next:hover {
+    background: rgba(255,255,255,0.1);
+
+    transform: translateX(4px);
 }
 
 
-/* =========================================
+/* =========================================================
+   LIGHTBOX BOTTOM
+========================================================= */
+
+.lightbox-bottom {
+    position: absolute;
+
+    left: 30px;
+    right: 30px;
+    bottom: 28px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lightbox-counter {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 9px;
+
+    letter-spacing: 3px;
+}
+
+.counter-line {
+    width: 35px;
+
+    height: 1px;
+
+    background: var(--muted);
+}
+
+.lightbox-hint {
+    color: var(--muted);
+
+    font-size: 7px;
+
+    letter-spacing: 3px;
+}
+
+
+/* =========================================================
    MOBILE
-========================================= */
+========================================================= */
 
 @media (max-width: 768px) {
 
-    .hero {
-        min-height: 92svh;
+    .cursor-glow {
+        display: none;
     }
 
+
+    .hero {
+        min-height: 100svh;
+    }
+
+
     .hero h1 {
-        font-size: clamp(65px, 19vw, 120px);
+        font-size:
+            clamp(65px, 18vw, 115px);
+
         letter-spacing: -4px;
     }
 
@@ -675,97 +1147,198 @@ footer {
         margin-left: 30px;
     }
 
+
     .eyebrow {
         font-size: 7px;
+
+        letter-spacing: 2.5px;
+
+        gap: 10px;
+    }
+
+    .eyebrow span {
+        width: 18px;
+    }
+
+
+    .hero-subtitle {
+        font-size: 8px;
+
         letter-spacing: 3px;
     }
 
+
+    .hero-bottom {
+        left: 6vw;
+        right: 6vw;
+
+        font-size: 6px;
+
+        letter-spacing: 2px;
+    }
+
+
     .promotions {
-        padding: 100px 6vw 120px;
+        padding:
+            100px
+            6vw
+            120px;
     }
 
-    .section-heading {
-        margin-bottom: 65px;
+
+    .section-intro {
+        margin-bottom: 70px;
     }
 
-    .section-heading h2 {
+
+    .section-intro h2 {
         font-size: 58px;
+
         letter-spacing: -2px;
     }
+
 
     .promotion-grid {
         display: block;
     }
 
+
     .promotion-card,
-    .promotion-card.large {
+    .card-large,
+    .card-small {
         margin-top: 0;
+
         margin-bottom: 75px;
     }
 
-    .promotion-card.large .image-wrapper img,
-    .image-wrapper img {
+
+    .promotion-image img,
+    .card-large .promotion-image img {
         aspect-ratio: 4 / 5;
     }
 
-    .image-overlay {
+
+    .view-promotion {
         opacity: 1;
+
         transform: translateY(0);
+
+        align-items: flex-start;
+
         justify-content: flex-end;
-        padding-bottom: 25px;
+
+        padding:
+            20px;
     }
 
-    .image-overlay .arrow {
+
+    .view-icon {
         display: none;
     }
 
-    .image-overlay span {
-        background: rgba(0,0,0,0.45);
-        padding: 9px 14px;
-        backdrop-filter: blur(8px);
+
+    .view-promotion > span {
+        padding:
+            9px
+            13px;
+
+        background:
+            rgba(0,0,0,0.45);
+
+        backdrop-filter:
+            blur(10px);
+
+        font-size: 7px;
     }
 
-    .footer-top {
+
+    .footer-main {
         display: block;
+
+        padding-bottom: 50px;
     }
 
-    .footer-top > span {
-        display: block;
-        margin-top: 30px;
+
+    .footer-mark {
+        margin-top: 35px;
     }
+
 
     .footer-bottom {
         display: block;
-        line-height: 2;
+
+        line-height: 2.5;
     }
+
 
     .footer-bottom span {
         display: block;
     }
 
+
     .lightbox {
         padding: 20px;
     }
 
+
+    .lightbox-content {
+        max-width: 94vw;
+
+        max-height: 82vh;
+    }
+
+
     .lightbox-image {
-        max-width: 95vw;
-        max-height: 85vh;
+        max-width: 94vw;
+
+        max-height: 80vh;
     }
 
-    .close-lightbox {
-        top: 20px;
+
+    .lightbox-close {
+        top: 18px;
+        right: 18px;
+
+        width: 43px;
+        height: 43px;
+    }
+
+
+    .lightbox-prev,
+    .lightbox-next {
+        width: 42px;
+        height: 42px;
+
+        margin-top: -21px;
+    }
+
+
+    .lightbox-prev {
+        left: 12px;
+    }
+
+    .lightbox-next {
+        right: 12px;
+    }
+
+
+    .lightbox-bottom {
+        left: 20px;
         right: 20px;
+        bottom: 18px;
     }
 
-    .cursor-glow {
+
+    .lightbox-hint {
         display: none;
     }
+
 }
 
 
-/* =========================================
+/* =========================================================
    REDUCED MOTION
-========================================= */
+========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -773,10 +1346,12 @@ footer {
     *::before,
     *::after {
         animation-duration: 0.01ms !important;
+
         animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
+
         transition-duration: 0.01ms !important;
+
+        scroll-behavior: auto !important;
     }
 
 }
-
