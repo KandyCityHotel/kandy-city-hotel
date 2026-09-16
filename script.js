@@ -1,94 +1,54 @@
-```javascript
-/* =========================================
-   KANDY CITY HOTEL
-   INTERACTIONS & ANIMATIONS
-========================================= */
+document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener("DOMContentLoaded", () => {
-
-    /* =====================================
-       LOADER
-    ===================================== */
-
+    /* LOADER */
     const loader = document.querySelector(".loader");
 
-    window.addEventListener("load", () => {
-
-        setTimeout(() => {
+    setTimeout(function () {
+        if (loader) {
             loader.classList.add("hide");
-        }, 1500);
+        }
+    }, 1200);
 
+
+    /* SCROLL REVEAL */
+    const revealElements = document.querySelectorAll(".reveal");
+
+    const observer = new IntersectionObserver(function (entries) {
+
+        entries.forEach(function (entry) {
+
+            if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+            }
+
+        });
+
+    }, {
+        threshold: 0.1
     });
 
 
-    /* =====================================
-       CURSOR GLOW
-    ===================================== */
+    revealElements.forEach(function (element) {
+        observer.observe(element);
+    });
 
+
+    /* CURSOR GLOW */
     const cursorGlow = document.querySelector(".cursor-glow");
 
     if (cursorGlow && window.innerWidth > 768) {
 
-        let mouseX = 0;
-        let mouseY = 0;
-        let glowX = 0;
-        let glowY = 0;
+        document.addEventListener("mousemove", function (event) {
 
-        document.addEventListener("mousemove", (event) => {
-            mouseX = event.clientX;
-            mouseY = event.clientY;
+            cursorGlow.style.left = event.clientX + "px";
+            cursorGlow.style.top = event.clientY + "px";
+
         });
 
-        function animateCursor() {
-
-            glowX += (mouseX - glowX) * 0.08;
-            glowY += (mouseY - glowY) * 0.08;
-
-            cursorGlow.style.left = `${glowX}px`;
-            cursorGlow.style.top = `${glowY}px`;
-
-            requestAnimationFrame(animateCursor);
-        }
-
-        animateCursor();
     }
 
 
-    /* =====================================
-       SCROLL REVEAL
-    ===================================== */
-
-    const revealElements = document.querySelectorAll(".reveal");
-
-    const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
-
-            entries.forEach((entry) => {
-
-                if (entry.isIntersecting) {
-
-                    entry.target.classList.add("visible");
-
-                    observer.unobserve(entry.target);
-                }
-
-            });
-
-        },
-        {
-            threshold: 0.12,
-            rootMargin: "0px 0px -50px 0px"
-        }
-    );
-
-    revealElements.forEach((element) => {
-        revealObserver.observe(element);
-    });
-
-
-    /* =====================================
-       PROMOTION LIGHTBOX
-    ===================================== */
+    /* LIGHTBOX */
 
     const cards = document.querySelectorAll(".promotion-card");
     const lightbox = document.querySelector(".lightbox");
@@ -98,14 +58,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentNumber = document.querySelector(".current-number");
     const totalNumber = document.querySelector(".total-number");
 
-    totalNumber.textContent = String(cards.length).padStart(2, "0");
+
+    if (totalNumber) {
+        totalNumber.textContent =
+            String(cards.length).padStart(2, "0");
+    }
 
 
-    cards.forEach((card, index) => {
+    cards.forEach(function (card, index) {
 
-        card.addEventListener("click", () => {
+        card.addEventListener("click", function () {
 
             const image = card.querySelector("img");
+
+            if (!image || !lightbox) return;
 
             lightboxImage.src = image.src;
             lightboxImage.alt = image.alt;
@@ -124,30 +90,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function closeLightbox() {
 
+        if (!lightbox) return;
+
         lightbox.classList.remove("active");
-
         document.body.classList.remove("no-scroll");
-
-        setTimeout(() => {
-            lightboxImage.src = "";
-        }, 400);
 
     }
 
 
-    closeButton.addEventListener("click", closeLightbox);
+    if (closeButton) {
+        closeButton.addEventListener("click", closeLightbox);
+    }
 
 
-    lightbox.addEventListener("click", (event) => {
+    if (lightbox) {
 
-        if (event.target === lightbox) {
-            closeLightbox();
-        }
+        lightbox.addEventListener("click", function (event) {
 
-    });
+            if (event.target === lightbox) {
+                closeLightbox();
+            }
+
+        });
+
+    }
 
 
-    document.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", function (event) {
 
         if (event.key === "Escape") {
             closeLightbox();
@@ -155,67 +124,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-
-    /* =====================================
-       IMAGE PARALLAX
-    ===================================== */
-
-    if (window.innerWidth > 900) {
-
-        cards.forEach((card) => {
-
-            const image = card.querySelector("img");
-
-            card.addEventListener("mousemove", (event) => {
-
-                const rect = card.getBoundingClientRect();
-
-                const x =
-                    (event.clientX - rect.left) /
-                    rect.width - 0.5;
-
-                const y =
-                    (event.clientY - rect.top) /
-                    rect.height - 0.5;
-
-                image.style.transform =
-                    `scale(1.045) translate(${x * 8}px, ${y * 8}px)`;
-
-            });
-
-
-            card.addEventListener("mouseleave", () => {
-
-                image.style.transform = "";
-
-            });
-
-        });
-
-    }
-
-
-    /* =====================================
-       SMOOTH HERO SCROLL
-    ===================================== */
-
-    const scrollIndicator =
-        document.querySelector(".scroll-indicator");
-
-    if (scrollIndicator) {
-
-        scrollIndicator.addEventListener("click", () => {
-
-            document.querySelector(".promotions")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
-
-        });
-
-        scrollIndicator.style.cursor = "pointer";
-
-    }
-
 });
-```
